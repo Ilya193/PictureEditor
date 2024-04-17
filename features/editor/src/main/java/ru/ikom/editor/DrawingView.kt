@@ -32,18 +32,22 @@ class DrawingView @JvmOverloads constructor(
         color = Color.GREEN
         isAntiAlias = true
         style = Paint.Style.STROKE
-        strokeWidth = 12f
+        strokeWidth = DEFAULT_STROKE_WIDTH
     }
 
     private val paths = mutableListOf<Path>()
     private val colors = mutableListOf<Int>()
+    private val strokesWidth = mutableListOf<Float>()
+
     var color = Color.GREEN
+    var strokeWidth = DEFAULT_STROKE_WIDTH
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         for (index in 0 until paths.size) {
             paint.color = colors[index]
+            paint.strokeWidth = strokesWidth[index]
             canvas.drawPath(paths[index], paint)
         }
     }
@@ -57,6 +61,7 @@ class DrawingView @JvmOverloads constructor(
                 path = Path()
                 colors.add(color)
                 paths.add(path)
+                strokesWidth.add(strokeWidth)
                 path.moveTo(x, y)
             }
 
@@ -69,7 +74,7 @@ class DrawingView @JvmOverloads constructor(
         return true
     }
 
-    fun save(completed: (Uri) -> Unit) {
+    fun save(completed: (Uri) -> Unit, error: () -> Unit) {
         if (paths.isNotEmpty()) {
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             bitmap?.let {
@@ -98,6 +103,7 @@ class DrawingView @JvmOverloads constructor(
                 }
             }
         }
+        else error()
     }
 
     fun clear() {
@@ -105,6 +111,7 @@ class DrawingView @JvmOverloads constructor(
             path.reset()
             paths.clear()
             colors.clear()
+            strokesWidth.clear()
             invalidate()
         }
         setImageDrawable(null)
@@ -114,7 +121,12 @@ class DrawingView @JvmOverloads constructor(
         if (paths.isNotEmpty()) {
             paths.removeLast()
             colors.removeLast()
+            strokesWidth.removeLast()
             invalidate()
         }
+    }
+
+    companion object {
+        const val DEFAULT_STROKE_WIDTH = 10f
     }
 }

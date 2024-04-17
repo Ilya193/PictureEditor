@@ -1,4 +1,6 @@
 <resources>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="picture_save">Изображение сохранено</string>
+    <string name="draw_something">Нужно что-то нарисовать</string>
 </resources>

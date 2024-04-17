@@ -1,7 +1,6 @@
 package ru.ikom.editor
 
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Matrix
@@ -12,6 +11,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -40,7 +40,6 @@ class EditorFragment : Fragment() {
                 val file = getFileFromUri(uri)
                 val drawable = Drawable.createFromPath(file.absolutePath)
                 drawable?.let {
-                    //viewModel.cache(it)
                     val bitmap = Bitmap.createBitmap(
                         it.intrinsicWidth,
                         it.intrinsicHeight,
@@ -65,11 +64,7 @@ class EditorFragment : Fragment() {
                             true
                         )
                         binding.drawingView.setImageBitmap(rotatedBitmap)
-                        //requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-                    } else {
-                        binding.drawingView.setImageBitmap(bitmap)
-                        //requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                    }
+                    } else binding.drawingView.setImageBitmap(bitmap)
                 }
             }
         }
@@ -85,8 +80,39 @@ class EditorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        settingListeners()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED).collect {
+                it?.let { drawable ->
+                    binding.drawingView.setImageDrawable(it)
+                    //clearCacheDir()
+                }
+            }
+        }
+    }
+
+    private fun settingListeners() {
+        binding.seekbar.progress = 2
+        binding.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            private val min = 10f
+            private var value = DrawingView.DEFAULT_STROKE_WIDTH
+
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                value = progress + min
+                binding.drawingView.strokeWidth = value
+                binding.strokeWidthCanvas.text = value.toInt().toString()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
         binding.icSave.setOnClickListener {
-            binding.drawingView.save { }
+            binding.drawingView.save(completed = {
+                showInfo(getString(R.string.picture_save))
+            }, error = {
+                showInfo(getString(R.string.draw_something))
+            })
         }
 
         binding.icPalette.setOnClickListener {
@@ -115,7 +141,7 @@ class EditorFragment : Fragment() {
         }
 
         binding.icShare.setOnClickListener {
-            binding.drawingView.save {
+            binding.drawingView.save(completed = {
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_STREAM, it)
@@ -124,39 +150,21 @@ class EditorFragment : Fragment() {
 
                 val shareIntent = Intent.createChooser(sendIntent, null)
                 startActivity(shareIntent)
-            }
+            }, error = {
+                showInfo(getString(R.string.draw_something))
+            })
         }
 
         binding.icFolder.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
+    }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED).collect {
-                it?.let { drawable ->
-                    /*val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-                    val canvas = Canvas(bitmap)
-                    drawable.setBounds(0, 0, canvas.width, canvas.height)
-                    drawable.draw(canvas)
-
-                    val originalBitmap = BitmapDrawable(resources, bitmap).bitmap
-                    val matrix = Matrix()
-                    matrix.postRotate(90f)
-
-                    val rotatedBitmap = Bitmap.createBitmap(
-                        originalBitmap,
-                        0,
-                        0,
-                        originalBitmap.getWidth(),
-                        originalBitmap.getHeight(),
-                        matrix,
-                        true
-                    )*/
-                    binding.drawingView.setImageDrawable(it)
-                    //clearCacheDir()
-                }
-            }
-        }
+    private fun showInfo(msg: String) {
+        binding.info.text = msg
+        binding.info.animate().alpha(1f).setDuration(250).withEndAction {
+            binding.info.animate().alpha(0f).setDuration(1500)
+        }.start()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -171,7 +179,7 @@ class EditorFragment : Fragment() {
 
     private fun getFileFromUri(uri: Uri): File {
         val inputStream = requireContext().contentResolver.openInputStream(uri)
-        val file = File(requireContext().cacheDir, "${UUID.randomUUID()}.jpg")
+        val file = File(requireContext().cacheDir, "PictureEditor-${UUID.randomUUID()}.jpg")
         val outputStream = FileOutputStream(file)
         inputStream?.use { input ->
             outputStream.use { output ->
