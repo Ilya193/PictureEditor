@@ -1,0 +1,10 @@
+<resources>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="permission_storage_info">У приложения нет доступа к директории, где хранятся все изображения.
+        Приложение не сможет сохранить картинку так, чтобы ею можно было поделиться</string>
+    <string name="provide_access">Предоставить доступ</string>
+    <string name="ban_info">У приложения нет доступа к директории, где хранятся все изображения.
+        Приложение не сможет сохранить картинку так, чтобы ею можно было поделиться. Восстановить доступ получится только через настройки</string>
+    <string name="open_settings">Открыть настройки</string>
+</resources>
