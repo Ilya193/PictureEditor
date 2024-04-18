@@ -127,6 +127,6 @@ class DrawingView @JvmOverloads constructor(
     }
 
     companion object {
-        const val DEFAULT_STROKE_WIDTH = 10f
+        const val DEFAULT_STROKE_WIDTH = 12f
     }
 }

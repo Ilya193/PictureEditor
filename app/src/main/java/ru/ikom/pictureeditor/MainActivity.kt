@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        clearCacheDir()
+
         if (savedInstanceState == null) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(
@@ -46,6 +48,17 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 viewModel.screen().flowWithLifecycle(lifecycle, Lifecycle.State.CREATED).collect {
                     it.show(supportFragmentManager, R.id.fragmentContainer)
+                }
+            }
+        }
+    }
+
+    private fun clearCacheDir() {
+        if (cacheDir.isDirectory) {
+            val files = cacheDir.listFiles()
+            files?.let {
+                for (file in files) {
+                    file.delete()
                 }
             }
         }

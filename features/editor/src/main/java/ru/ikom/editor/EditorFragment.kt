@@ -21,6 +21,8 @@ import androidx.lifecycle.lifecycleScope
 import com.nvt.color.ColorPickerDialog
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.ikom.common.BaseColorPickerDialog
+import ru.ikom.common.BaseSeekBarChangeListener
 import ru.ikom.editor.databinding.FragmentEditorBinding
 import java.io.File
 import java.io.FileOutputStream
@@ -28,7 +30,6 @@ import java.util.UUID
 
 
 class EditorFragment : Fragment() {
-
     private var _binding: FragmentEditorBinding? = null
     private val binding: FragmentEditorBinding get() = _binding!!
 
@@ -86,7 +87,6 @@ class EditorFragment : Fragment() {
             viewModel.uiState.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED).collect {
                 it?.let { drawable ->
                     binding.drawingView.setImageDrawable(it)
-                    //clearCacheDir()
                 }
             }
         }
@@ -94,7 +94,7 @@ class EditorFragment : Fragment() {
 
     private fun settingListeners() {
         binding.seekbar.progress = 2
-        binding.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.seekbar.setOnSeekBarChangeListener(object : BaseSeekBarChangeListener() {
             private val min = 10f
             private var value = DrawingView.DEFAULT_STROKE_WIDTH
 
@@ -103,8 +103,6 @@ class EditorFragment : Fragment() {
                 binding.drawingView.strokeWidth = value
                 binding.strokeWidthCanvas.text = value.toInt().toString()
             }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
         binding.icSave.setOnClickListener {
@@ -121,8 +119,7 @@ class EditorFragment : Fragment() {
                     context,
                     view.color,
                     true,
-                    object : ColorPickerDialog.OnColorPickerListener {
-                        override fun onCancel(dialog: ColorPickerDialog?) {}
+                    object : BaseColorPickerDialog() {
                         override fun onOk(dialog: ColorPickerDialog?, color: Int) {
                             binding.drawingView.color = color
                         }
@@ -187,18 +184,6 @@ class EditorFragment : Fragment() {
             }
         }
         return file
-    }
-
-    private fun clearCacheDir() {
-        val cacheDir = requireContext().cacheDir
-        if (cacheDir.isDirectory) {
-            val files = cacheDir.listFiles()
-            if (files != null) {
-                for (file in files) {
-                    file.delete()
-                }
-            }
-        }
     }
 
     companion object {
