@@ -49,5 +49,5 @@ interface Screen {
 }
 
 class EditorScreen(
-    private val imageUri: String
+    imageUri: String
 ) : Screen.Replace(EditorFragment.newInstance(imageUri))

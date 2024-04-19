@@ -38,22 +38,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         else viewModel.openEditor()
-        clearCacheDir()
-
         lifecycleScope.launch {
             viewModel.screen().flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED).collect {
                 it.show(supportFragmentManager, R.id.fragmentContainer)
-            }
-        }
-    }
-
-    private fun clearCacheDir() {
-        if (cacheDir.isDirectory) {
-            val files = cacheDir.listFiles()
-            files?.let {
-                for (file in files) {
-                    file.delete()
-                }
             }
         }
     }
