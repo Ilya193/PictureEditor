@@ -52,6 +52,8 @@ class CanvasSettingsDialogFragment : BottomSheetDialogFragment() {
 
     private fun submitList() {
         adapter.submitList(colors.toList())
+        binding.tvInfo.visibility = if (colors.firstOrNull { it.selected } == null) View.VISIBLE else View.GONE
+        binding.tvInfo.setTextColor(Color.RED)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,8 +103,11 @@ class CanvasSettingsDialogFragment : BottomSheetDialogFragment() {
         adapter.submitList(colors.toList())
 
         binding.btnApply.setOnClickListener {
-            listener?.successCanvasSettings(stroke, colors.first { it.selected }.color, opacity)
-            dismiss()
+            val color = colors.firstOrNull { it.selected }
+            color?.let {
+                listener?.successCanvasSettings(stroke, it.color, opacity)
+                dismiss()
+            }
         }
         binding.btnCancel.setOnClickListener {
             dismiss()

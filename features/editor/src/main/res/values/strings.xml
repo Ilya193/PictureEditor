@@ -13,4 +13,5 @@
     <string name="load_picture">Загрузка изображения…</string>
     <string name="stroke_canvas">Размер холста</string>
     <string name="alpha">Непрозрачность</string>
+    <string name="select_color">Выберите цвет</string>
 </resources>
