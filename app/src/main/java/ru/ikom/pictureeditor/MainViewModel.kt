@@ -9,6 +9,5 @@ class MainViewModel(
 
     fun screen(): StateFlow<Screen> = navigation.read()
 
-    fun openPermissions() = navigation.openPermissions()
-    fun openEditor() = navigation.openEditor()
+    fun openEditor(imageUri: String = "") = navigation.openEditor(imageUri)
 }

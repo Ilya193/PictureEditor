@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:minHeight="300dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CanvasSettingsDialogFragment">
+
+    <TextView
+        android:id="@+id/strokeCanvasValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12"
+        app:layout_constraintEnd_toStartOf="@id/seekbarStroke"
+        app:layout_constraintTop_toTopOf="@id/seekbarStroke"
+        app:layout_constraintBottom_toBottomOf="@id/seekbarStroke"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stroke_canvas"
+        app:layout_constraintStart_toStartOf="@id/seekbarStroke"
+        app:layout_constraintEnd_toEndOf="@id/seekbarStroke"
+        app:layout_constraintBottom_toTopOf="@id/seekbarStroke"/>
+
+    <SeekBar
+        android:id="@+id/seekbarStroke"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="10dp"
+        android:max="10"
+        android:layout_marginTop="25dp"
+        app:layout_constraintWidth_percent="0.65"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20"
+        app:layout_constraintStart_toEndOf="@id/seekbarStroke"
+        app:layout_constraintBottom_toBottomOf="@id/seekbarStroke"
+        app:layout_constraintTop_toTopOf="@id/seekbarStroke"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alpha"
+        app:layout_constraintEnd_toEndOf="@id/seekbarOpacity"
+        app:layout_constraintStart_toStartOf="@id/seekbarOpacity"
+        app:layout_constraintBottom_toTopOf="@id/seekbarOpacity"
+        />
+
+    <TextView
+        android:id="@+id/opacityCanvasValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@id/seekbarOpacity"
+        app:layout_constraintEnd_toStartOf="@id/seekbarOpacity"
+        app:layout_constraintTop_toTopOf="@id/seekbarOpacity"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <SeekBar
+        android:id="@+id/seekbarOpacity"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="10dp"
+        android:max="255"
+        android:layout_marginTop="25dp"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintTop_toBottomOf="@id/seekbarStroke"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="255"
+        app:layout_constraintTop_toTopOf="@id/seekbarOpacity"
+        app:layout_constraintBottom_toBottomOf="@id/seekbarOpacity"
+        app:layout_constraintStart_toEndOf="@id/seekbarOpacity"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvColors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/seekbarOpacity"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/btnCancel"/>
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/secondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnApply"/>
+
+    <Button
+        android:id="@+id/btnApply"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="@string/apply"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/secondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnCancel"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,4 +2,5 @@
 <resources>
     <color name="text">@android:color/white</color>
     <color name="box">#272626</color>
+    <color name="secondary">#1652E6</color>
 </resources>

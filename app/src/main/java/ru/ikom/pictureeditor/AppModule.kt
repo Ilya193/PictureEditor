@@ -16,10 +16,6 @@ val appModule = module {
         navigation
     }
 
-    single<PermissionsRouter> {
-        navigation
-    }
-
     single<EditorRouter> {
         navigation
     }

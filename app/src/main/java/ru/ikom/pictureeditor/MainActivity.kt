@@ -1,19 +1,23 @@
 package ru.ikom.pictureeditor
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.ikom.pictureeditor.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,29 +30,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
+        if (Intent.ACTION_VIEW == intent.action || Intent.ACTION_EDIT == intent.action) {
+            if (intent.type?.startsWith("image/") == true) {
+                val imageUri = intent.data
+                if (imageUri != null) viewModel.openEditor(imageUri.toString())
+            }
+        }
+        else viewModel.openEditor()
+
+        setContentView(binding.root)
         clearCacheDir()
 
-        if (savedInstanceState == null) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) viewModel.openPermissions()
-                else viewModel.openEditor()
-            } else viewModel.openEditor()
-
-            lifecycleScope.launch {
-                viewModel.screen().flowWithLifecycle(lifecycle, Lifecycle.State.CREATED).collect {
-                    it.show(supportFragmentManager, R.id.fragmentContainer)
-                }
+        lifecycleScope.launch {
+            viewModel.screen().flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED).collect {
+                it.show(supportFragmentManager, R.id.fragmentContainer)
             }
         }
     }
