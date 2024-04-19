@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
+        setContentView(binding.root)
         if (Intent.ACTION_VIEW == intent.action || Intent.ACTION_EDIT == intent.action) {
             if (intent.type?.startsWith("image/") == true) {
                 val imageUri = intent.data
@@ -38,8 +38,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         else viewModel.openEditor()
-
-        setContentView(binding.root)
         clearCacheDir()
 
         lifecycleScope.launch {

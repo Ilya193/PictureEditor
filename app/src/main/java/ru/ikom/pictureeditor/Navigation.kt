@@ -7,9 +7,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import ru.ikom.editor.EditorFragment
 import ru.ikom.editor.EditorRouter
-import ru.ikom.editor.PermissionsDialogFragment
-import ru.ikom.permissions.PermissionsFragment
-import ru.ikom.permissions.PermissionsRouter
 
 interface Navigation<T> : MainRouter {
     fun read(): StateFlow<T>

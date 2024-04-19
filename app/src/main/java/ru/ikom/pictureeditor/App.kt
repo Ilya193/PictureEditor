@@ -4,7 +4,6 @@ import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import ru.ikom.editor.featureEditorModule
-import ru.ikom.permissions.featurePermissionsModule
 
 class App : Application() {
 
@@ -12,7 +11,7 @@ class App : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@App)
-            modules(appModule, featurePermissionsModule, featureEditorModule)
+            modules(appModule, featureEditorModule)
         }
     }
 }

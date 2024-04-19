@@ -23,6 +23,5 @@ dependencyResolutionManagement {
 rootProject.name = "Picture editor"
 include(":app")
 include(":features")
-include(":features:permissions")
 include(":common")
 include(":features:editor")
