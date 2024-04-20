@@ -6,22 +6,17 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
-import android.graphics.Rect
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import java.io.File
-import java.io.FileOutputStream
 import java.util.UUID
-import kotlin.math.pow
 
 class DrawingView @JvmOverloads constructor(
     context: Context,

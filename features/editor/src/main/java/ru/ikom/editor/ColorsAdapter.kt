@@ -1,6 +1,5 @@
 package ru.ikom.editor
 
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
