@@ -48,7 +48,8 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_save" />
+                android:src="@drawable/ic_save"
+                android:contentDescription="@string/save" />
 
             <ImageView
                 android:id="@+id/icPalette"
@@ -56,35 +57,39 @@
                 android:layout_height="35dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_palette"
-                />
+                android:contentDescription="@string/settings_canvas" />
 
             <ImageView
                 android:id="@+id/icUndo"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_undo" />
+                android:src="@drawable/ic_undo"
+                android:contentDescription="@string/cancel" />
 
             <ImageView
                 android:id="@+id/icDelete"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_delete" />
+                android:src="@drawable/ic_delete"
+                android:contentDescription="@string/delete" />
 
             <ImageView
                 android:id="@+id/icShare"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_share" />
+                android:src="@drawable/ic_share"
+                android:contentDescription="@string/share" />
 
             <ImageView
                 android:id="@+id/icFolder"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_folder_open" />
+                android:src="@drawable/ic_folder_open"
+                android:contentDescription="@string/select_photo" />
 
         </LinearLayout>
 
