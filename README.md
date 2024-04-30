@@ -1,4 +1,4 @@
-https://appgallery.huawei.com.cn/app/C110822585
+https://appgallery.huawei.com.cn/app/C110822585  
 Приложение со стандартным набором интрументов для редактирования изображений и рисованием на экране
 
 ![photo_2024-04-19_23-54-33](https://github.com/Ilya193/PictureEditor/assets/40058340/341b9275-a44d-4958-a13f-3ae7fc46c381)
